@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.use
 
 class PaintWidget @JvmOverloads constructor(
     context: Context?,
@@ -21,15 +20,18 @@ class PaintWidget @JvmOverloads constructor(
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
 
         attrs?.let {
-            context?.obtainStyledAttributes(it, R.styleable.PaintWidget)?.use { typedArray ->
+           val typedArray = context?.obtainStyledAttributes(it, R.styleable.PaintWidget)
+            typedArray?.let {
                 seekBar.max = typedArray.getInteger(R.styleable.PaintWidget_maxWidth, 100)
                 val defaultColorPosition = typedArray.getInteger(R.styleable.PaintWidget_defaultColorPosition, 0) % 4
-               (radioGroup.getChildAt(defaultColorPosition) as RadioButton).isChecked = true
+                (radioGroup.getChildAt(defaultColorPosition) as ColorRadioButton).isChecked = true
             }
+            typedArray?.recycle()
         }
 
-        radioGroup.setOnCheckedChangeListener { _: RadioGroup, i: Int ->
-            Toast.makeText(context, "Pressed $i", Toast.LENGTH_LONG).show()
+        //TODO fix radio group onCheckedListener
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            Toast.makeText(context, "Pressed $checkedId", Toast.LENGTH_LONG).show()
         }
 
         setSeekBarOnChangeListener(seekBar)
@@ -40,6 +42,7 @@ class PaintWidget @JvmOverloads constructor(
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val seekBarWidthText = findViewById<TextView>(R.id.widthNumber)
                 seekBarWidthText.text = progress.toString()
+                findViewById<ColorRadioButton>(R.id.firstRadioButton).isChecked = true
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {

@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatRadioButton
-import androidx.core.content.res.use
 
 class ColorRadioButton @JvmOverloads constructor(
     context: Context,
@@ -21,26 +20,30 @@ class ColorRadioButton @JvmOverloads constructor(
 
     init {
         attrs?.let {
-            context.obtainStyledAttributes(it, R.styleable.ColorRadioButton).use {typedArray ->
-                color = typedArray.getColor(R.styleable.ColorRadioButton_color, Color.BLACK)
-            }
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.ColorRadioButton)
+            color = typedArray.getColor(R.styleable.ColorRadioButton_color, Color.BLACK)
+            typedArray.recycle()
         }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val width = (MeasureSpec.getSize(widthMeasureSpec))
+        val height = (MeasureSpec.getSize(heightMeasureSpec))
+        setMeasuredDimension(width, height)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         val w = width.toFloat()
         val h = height.toFloat()
+        paint.style = Paint.Style.FILL
         if (isChecked) {
-            paint.style = Paint.Style.STROKE
-            canvas?.drawColor(strokeColor)
+            paint.color = strokeColor
             canvas?.drawCircle(w/2, h/2, w/2, paint)
-            canvas?.drawColor(color)
-            paint.style = Paint.Style.FILL
-            canvas?.drawCircle(w/3, h/3, w/3, paint)
+            paint.color = color
+            canvas?.drawCircle(w/2, h/2, w/3, paint)
         } else {
-            paint.style = Paint.Style.FILL
-            canvas?.drawColor(color)
+            paint.color = color
             canvas?.drawCircle(w/2, h/2, w/2, paint)
         }
     }

@@ -11,7 +11,7 @@
             android:layout_height="156dp"
             android:layout_width="214dp"
             app:maxWidth="120"
-            app:defaultColorPosition="0"
+            app:defaultColorPosition="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
