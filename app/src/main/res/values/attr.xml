@@ -4,7 +4,10 @@
     <declare-styleable name="PaintWidget">
         <attr name="maxWidth" format="integer"/>
         <attr name="defaultColorPosition" format="integer"/>
-        <attr name="firstItemColor" format="enum"/>
+        <attr name="firstItemColor" format="enum">
+            <enum name="RED" value="-513486"/>
+            <enum name="BLACK" value="-16777216"/>
+        </attr>
     </declare-styleable>
 
 

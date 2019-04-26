@@ -1,9 +1,13 @@
 package com.epam.paintwidget
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.*
+import android.widget.RadioGroup
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 
 class PaintWidget @JvmOverloads constructor(
@@ -12,29 +16,58 @@ class PaintWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    var seekBarMaxWidth: Int
+        get() = with(findViewById<SeekBar>(R.id.widthSeekBar)) {
+            max
+        }
+        set(value) {
+            val seekBar = findViewById<SeekBar>(R.id.widthSeekBar)
+            seekBar.max = value
+        }
+
+    var defaultColorPosition = 0
+        set(value) {
+            field = value % 4
+            val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+            (radioGroup.getChildAt(field) as ColorRadioButton).isChecked = true
+        }
+
+    var firstItemColor
+        get() = findViewById<ColorRadioButton>(R.id.firstRadioButton).color
+        set(value) {
+            val colorFromDec = Color.parseColor("#" + Integer.toHexString(value))
+            findViewById<ColorRadioButton>(R.id.firstRadioButton).color = colorFromDec
+        }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.paintwidget_view, this, true)
 
-        val seekBar = findViewById<SeekBar>(R.id.widthSeekBar)
-        seekBar.progress = 0
-        val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+        initCompoundComponents(attrs)
 
+        val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            onRadioGroupClickListener(checkedId)
+        }
+
+        val seekBar = findViewById<SeekBar>(R.id.widthSeekBar)
+        setSeekBarOnChangeListener(seekBar)
+    }
+
+    private fun initCompoundComponents(attrs: AttributeSet? = null) {
         attrs?.let {
-           val typedArray = context?.obtainStyledAttributes(it, R.styleable.PaintWidget)
+            val typedArray = context?.obtainStyledAttributes(it, R.styleable.PaintWidget)
             typedArray?.let {
-                seekBar.max = typedArray.getInteger(R.styleable.PaintWidget_maxWidth, 100)
-                val defaultColorPosition = typedArray.getInteger(R.styleable.PaintWidget_defaultColorPosition, 0) % 4
-                (radioGroup.getChildAt(defaultColorPosition) as ColorRadioButton).isChecked = true
+                seekBarMaxWidth = typedArray.getInteger(R.styleable.PaintWidget_maxWidth, 100)
+                defaultColorPosition = typedArray.getInteger(R.styleable.PaintWidget_defaultColorPosition, 0)
+                firstItemColor = typedArray.getInt(R.styleable.PaintWidget_firstItemColor, Color.BLACK)
             }
             typedArray?.recycle()
         }
+    }
 
-        //TODO fix radio group onCheckedListener
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            Toast.makeText(context, "Pressed $checkedId", Toast.LENGTH_LONG).show()
-        }
-
-        setSeekBarOnChangeListener(seekBar)
+    private fun onRadioGroupClickListener(checkedId: Int) {
+        val button = findViewById<ColorRadioButton>(checkedId)
+        Toast.makeText(context, "Pressed ${button.hexColor()}", Toast.LENGTH_LONG).show()
     }
 
     private fun setSeekBarOnChangeListener(seekBar: SeekBar) {
@@ -42,7 +75,6 @@ class PaintWidget @JvmOverloads constructor(
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val seekBarWidthText = findViewById<TextView>(R.id.widthNumber)
                 seekBarWidthText.text = progress.toString()
-                findViewById<ColorRadioButton>(R.id.firstRadioButton).isChecked = true
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
