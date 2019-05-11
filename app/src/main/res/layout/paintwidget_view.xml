@@ -10,90 +10,88 @@
 
     <TextView
             android:text="@string/widthText"
-            android:textColor="#727272"
+            android:textColor="@color/gray_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="16dp"
             android:id="@+id/widthText"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginStart="@dimen/marginStart"
     />
     <TextView
             android:text="@string/defaultWidthText"
-            android:textSize="16sp"
+            android:textSize="@dimen/widthNumberSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/widthNumber"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@+id/widthText"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/marginEnd"
     />
     <SeekBar
-            android:layout_width="190dp"
+            android:layout_width="@dimen/seekBarWidth"
             android:layout_height="wrap_content"
             android:id="@+id/widthSeekBar"
             app:layout_constraintTop_toBottomOf="@+id/widthText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginStart="@dimen/marginStart"
             android:splitTrack="false"
-            android:progress="60"
+            android:progress="0"
             android:thumb="@drawable/seek_thumb"
             android:progressDrawable="@drawable/seek_style"
     />
     <TextView
             android:text="@string/colorsText"
-            android:textColor="#727272"
+            android:textColor="@color/gray_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/colorsText"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/colorsTextMarginTop"
             app:layout_constraintTop_toBottomOf="@+id/widthSeekBar"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="@dimen/marginStart"/>
     <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/marginStart"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginBottom"
             app:layout_constraintBottom_toBottomOf="parent">
 
-        <RadioButton
+        <com.epam.paintwidget.ColorRadioButton
                 android:id="@+id/firstRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:button="@drawable/first_radiobutton_selector"
+                android:layout_width="@dimen/radioButtonSize"
+                android:layout_height="@dimen/radioButtonSize"
+                android:layout_marginEnd="@dimen/marginBetweenButtons"
         />
-        <RadioButton
+        <com.epam.paintwidget.ColorRadioButton
                 android:id="@+id/secondRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:checked="false"
-                android:button="@drawable/second_radiobutton_selector"
+                app:color="@color/red_color"
+                android:layout_width="@dimen/radioButtonSize"
+                android:layout_height="@dimen/radioButtonSize"
+                android:layout_marginEnd="@dimen/marginBetweenButtons"
         />
-        <RadioButton
+        <com.epam.paintwidget.ColorRadioButton
                 android:id="@+id/thirdRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:button="@drawable/third_radiobutton_selector"
+                app:color="@color/green_color"
+                android:layout_width="@dimen/radioButtonSize"
+                android:layout_height="@dimen/radioButtonSize"
+                android:layout_marginEnd="@dimen/marginBetweenButtons"
         />
-        <RadioButton
+        <com.epam.paintwidget.ColorRadioButton
                 android:id="@+id/fourthRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/fourth_radiobutton_selector"
+                app:color="@color/blue_color"
+                android:layout_width="@dimen/radioButtonSize"
+                android:layout_height="@dimen/radioButtonSize"
         />
     </RadioGroup>
 

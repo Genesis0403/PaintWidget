@@ -3,4 +3,5 @@
     <string name="widthText">Width:</string>
     <string name="colorsText">Colors:</string>
     <string name="defaultWidthText">0</string>
+    <string name="close">Close</string>
 </resources>

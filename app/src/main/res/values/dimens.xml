@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginTop">16dp</dimen>
+    <dimen name="marginStart">8dp</dimen>
+    <dimen name="marginEnd">8dp</dimen>
+    <dimen name="widthNumberSize">16sp</dimen>
+    <dimen name="seekBarWidth">190dp</dimen>
+    <dimen name="colorsTextMarginTop">8dp</dimen>
+    <dimen name="marginBottom">8dp</dimen>
+    <dimen name="radioButtonSize">20dp</dimen>
+    <dimen name="marginBetweenButtons">16dp</dimen>
+    <dimen name="widget_height">156dp</dimen>
+    <dimen name="widget_width">214dp</dimen>
+</resources>

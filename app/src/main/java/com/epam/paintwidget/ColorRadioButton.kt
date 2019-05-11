@@ -6,42 +6,53 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatRadioButton
-import androidx.core.content.res.use
+import androidx.core.graphics.ColorUtils
 
 class ColorRadioButton @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : AppCompatRadioButton(context, attrs, defStyleAttr) {
+    attrs: AttributeSet? = null
+) : AppCompatRadioButton(context, attrs) {
 
     var color = Color.BLACK
-    var strokeColor = Color.parseColor("#7E7E7F")
+    val alphaColor
+        get() = ColorUtils.setAlphaComponent(color, 51)
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
+
         attrs?.let {
-            context.obtainStyledAttributes(it, R.styleable.ColorRadioButton).use {typedArray ->
-                color = typedArray.getColor(R.styleable.ColorRadioButton_color, Color.BLACK)
-            }
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.ColorRadioButton)
+            color = typedArray.getColor(R.styleable.ColorRadioButton_color, Color.BLACK)
+            typedArray.recycle()
         }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val width = (SCALE_FACTOR * MeasureSpec.getSize(widthMeasureSpec)).toInt()
+        val height = (SCALE_FACTOR * MeasureSpec.getSize(heightMeasureSpec)).toInt()
+        setMeasuredDimension(width, height)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         val w = width.toFloat()
         val h = height.toFloat()
+        paint.style = Paint.Style.FILL
         if (isChecked) {
-            paint.style = Paint.Style.STROKE
-            canvas?.drawColor(strokeColor)
-            canvas?.drawCircle(w/2, h/2, w/2, paint)
-            canvas?.drawColor(color)
-            paint.style = Paint.Style.FILL
-            canvas?.drawCircle(w/3, h/3, w/3, paint)
+            paint.color = alphaColor
+            canvas?.drawCircle(w / 2, h / 2, w / 2, paint)
+            paint.color = color
+            canvas?.drawCircle(w / 2, h / 2, w / 3, paint)
         } else {
-            paint.style = Paint.Style.FILL
-            canvas?.drawColor(color)
-            canvas?.drawCircle(w/2, h/2, w/2, paint)
+            paint.color = color
+            canvas?.drawCircle(w / 2, h / 2, w / 2, paint)
         }
     }
+
+    companion object {
+        const val SCALE_FACTOR = 1.5
+    }
 }
+
+fun ColorRadioButton.hexColor() = "#" + Integer.toHexString(color)
