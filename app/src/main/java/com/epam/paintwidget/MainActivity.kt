@@ -1,9 +1,15 @@
 package com.epam.paintwidget
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_main.*
+
+/**
+ * Activity which contains [PaintWidget].
+ *
+ * @author Vlad Korotkevich
+ */
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,11 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         closeButton.setOnClickListener {
-            onClickListener()
+            paintWidget.isVisible = !paintWidget.isVisible
         }
-    }
-
-    private fun onClickListener() {
-        paintWidget.isVisible = !paintWidget.isVisible
     }
 }
