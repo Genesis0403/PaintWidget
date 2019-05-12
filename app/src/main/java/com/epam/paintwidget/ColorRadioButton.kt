@@ -8,14 +8,20 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.core.graphics.ColorUtils
 
+/**
+ * Radiobutton which contains its color.
+ *
+ * @author Vlad Korotkevich
+ */
+
 class ColorRadioButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : AppCompatRadioButton(context, attrs) {
 
     var color = Color.BLACK
-    val alphaColor
-        get() = ColorUtils.setAlphaComponent(color, 51)
+    private val alphaColor
+        get() = ColorUtils.setAlphaComponent(color, ALPHA)
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -35,7 +41,6 @@ class ColorRadioButton @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
         val w = width.toFloat()
         val h = height.toFloat()
         paint.style = Paint.Style.FILL
@@ -50,9 +55,8 @@ class ColorRadioButton @JvmOverloads constructor(
         }
     }
 
-    companion object {
-        const val SCALE_FACTOR = 1.5
+    private companion object {
+        private const val SCALE_FACTOR = 1.5
+        private const val ALPHA = 90
     }
 }
-
-fun ColorRadioButton.hexColor() = "#" + Integer.toHexString(color)
